@@ -16,5 +16,12 @@ class Command(BaseCommand):
         with open(json_file_path, 'r') as file:
             movies = json.load(file)
 
+        # Add products to the database
         for i in range(100):
             movie = movies[i]
+            exist = Movie.objects.filter(title = movie['title']).first() #Se asegura que la pelicula no exista en la base de datos
+            if not exist:
+                Movie.objects.create(title = movie['title'],
+                                     image = 'movie/images/default.jpg',
+                                     genre = movie['genre'],
+                                     year = movie['year'])
